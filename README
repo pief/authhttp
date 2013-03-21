@@ -1,0 +1,53 @@
+               authhttp DokuWiki HTTP authentication plugin
+         Copyright (c) 2013 Pieter Hollants <pieter@hollants.com>
+           Licensed under the GNU Public License (GPL) version 3
+
+
+WHAT IS IT?
+
+This plugin basically replaces DokuWiki's own authentication features
+with the HTTP authentication configured in the Webserver. As only login name and
+password are known:
+- the user's real name is set to his login name
+- a possibly non-working email address is constructed with the "emaildomain"
+  config setting
+- all users are part of the DokuWiki group configured with the "group" config
+  setting (default: "user")
+- users that are specified in the list configured with "adminusers" will
+  also be member of the group configured with "admingroup" (default: "admin")
+
+These restrictions may not suit your setup, in which case you should check out
+the "authsplit" plugin at https://www.dokuwiki.org/plugin:authhttp.
+
+
+DOWNLOAD
+
+There is a plugin page on the DokuWiki at
+
+  https://www.dokuwiki.org/plugin:authhttp
+
+Archives of released versions can be downloaded from
+
+  http://www.0xf8.org/dokuwiki/authhttp/.
+
+To follow development more closely, clone the GitHub repo at
+
+  https://github.com/pief/authhttp.git
+
+
+INSTALLATION
+
+The fastest way to install the plugin is to paste the download URL into the
+appropriate field in DokuWiki's plugin manager.
+
+If you install this plugin manually, make sure it is installed in
+lib/plugins/authhttp/ - if the folder is called different it will not work!
+
+Please refer to http://www.dokuwiki.org/plugins for additional info
+on how to install plugins in DokuWiki.
+
+
+CREDITS
+
+This plugin in based on ideas in the "ggauth" auth backend by Grant Gardner
+<grant@lastweekend.com.au>, https://www.dokuwiki.org/auth:ggauth.
