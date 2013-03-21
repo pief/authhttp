@@ -4,42 +4,68 @@
            Licensed under the GNU Public License (GPL) version 3
 
 
-WHAT IS IT?
+DESCRIPTION
 
-This plugin basically replaces DokuWiki's own authentication features
-with the HTTP authentication configured in the Webserver. As only login name and
-password are known:
-- the user's real name is set to his login name
-- a possibly non-working email address is constructed with the "emaildomain"
-  config setting
-- all users are part of the DokuWiki group configured with the "group" config
-  setting (default: "user")
-- users that are specified in the list configured with "adminusers" will
-  also be member of the group configured with "admingroup" (default: "admin")
+This auth plugin should be installed in certain scenarios if you configured
+your Webserver to do HTTP authentication. If you did not, it will report errors
+and DokuWiki's ACL won't work.
 
-These restrictions may not suit your setup, in which case you should check out
-the "authsplit" plugin at https://www.dokuwiki.org/plugin:authhttp.
+The very moment you enable HTTP authentication in the Webserver and a user
+authenticates successfully, PHP provides these credentials to PHP scripts
+through $_SERVER['PHP_AUTH_USER'] and $_SERVER['PHP_AUTH_PW']. By default,
+DokuWiki will pick these up and pretend the user supplied those through the
+login form. It will perform authentication using the configured auth plugin
+and, if successful, show the user and the options depending on the auth
+plugin's capabilities.
 
+This all works out as long as
+- either DokuWiki's auth plugin does not have capabilities such as change login
+  name, change password, add user, edit user, delete user
+- or the Webserver and DokuWiki's auth plugin use the same source for their
+  authentication.
 
-DOWNLOAD
+If the first condition is not true, the user can change his password through
+the “User profile” function. The admin, through the “User manager”, can also
+change his login name, delete him or add a different user. In all of these
+scenarios, if the second condition is also not true, there will be
+inconsistencies between the HTTP authentication (which might eg. use an old
+password) and DokuWiki's auth plugin (which might have stored a new password
+somewhere else), causing Single Sign-On to break and errors to be displayed.
 
-There is a plugin page on the DokuWiki at
+Note that this is not a bug in DokuWiki – DokuWiki can't possibly know how your
+Webserver's HTTP authentication works. For example, if you configure your
+Webserver to display the username/password prompt but not validate them, there
+is no problem at all since DokuWiki is the only entity doing actual
+authentication. This might actually be a considerable setup since there is not
+much point in authenticating twice. The upper part of httpauth-passthru
+describes it.
 
-  https://www.dokuwiki.org/plugin:authhttp
+This plugin does it the other way round. It assumes that the web server already
+did the authentication and essentially annuls DokuWiki's own authentication by
+providing a minimalistic checkPass() method which does not really authenticate.
+It merely checks that DokuWiki's idea of username/password equals the HTTP
+authentication credentials which should always be the case (except if you did
+not enable HTTP authentication in your Webserver).
 
-Archives of released versions can be downloaded from
+DokuWiki expects some things that HTTP authentication does not provide:
+- the user's real name: authhttp will simply return the user's login name. This
+  may not look nice, but it is an acceptable compromise.
+- the user's email address: authhttp makes one up by appending a configurable
+  domain part to the user's login name. This will generate email addresses that
+  will probably not work. There is not really a way around this, so you might
+  want to disable email-related functions in DokuWiki.
+- the user's groups: authhttp will simply put all users in one group, whose
+  name is configurable. Users whose login names are listed in “adminusers” will
+  also be reported to be member of “admingroup”.
 
-  http://www.0xf8.org/dokuwiki/authhttp/.
-
-To follow development more closely, clone the GitHub repo at
-
-  https://github.com/pief/authhttp.git
+If these limitations are not acceptable, you might want to use combine the
+upcoming authsplit plugin with authhttp.
 
 
 INSTALLATION
 
-The fastest way to install the plugin is to paste the download URL into the
-appropriate field in DokuWiki's plugin manager.
+Download the latest version from https://github.com/pief/authhttp/zipball/master
+(you can use the URL for DOkuWiki's plugin manager).
 
 If you install this plugin manually, make sure it is installed in
 lib/plugins/authhttp/ - if the folder is called different it will not work!
@@ -48,7 +74,32 @@ Please refer to http://www.dokuwiki.org/plugins for additional info
 on how to install plugins in DokuWiki.
 
 
+CONFIGURATION AND SETTINGS
+
+- emaildomain: The domain to append to login names to generate email addresses.
+- group: The group all users will be put in. If ACLs are enabled, it is wise to
+  leave this at the DokuWiki default of "user".
+- adminusers: The login names of users to be be treated as Admins. You can list
+  multiple login names separated by Space.
+- admingroup: The name of the Admin group. It is wise to leave this at the
+  DokuWiki default of "admin".
+
+
+REFERENCES
+
+Visit the DokuWiki plugin page at
+
+  https://www.dokuwiki.org/plugin:authhttp
+
+To follow development more closely, clone the GitHub repo at
+
+  https://github.com/pief/authhttp.git
+
+
 CREDITS
 
 This plugin in based on ideas in the "ggauth" auth backend by Grant Gardner
-<grant@lastweekend.com.au>, https://www.dokuwiki.org/auth:ggauth.
+<grant@lastweekend.com.au>, https://www.dokuwiki.org/auth:ggauth. I did not
+know whether Grant would update ggauth for the new auth plugins concept. Also,
+his "http" auth backend uses trustExternal() which eg. does not support group
+memberships if used on its own, ie. without the ggauth "split" auth backend.
