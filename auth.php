@@ -42,7 +42,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
         /* Load the config */
         $this->loadConfig();
 
-	/* Set the config values */
+        /* Set the config values */
         foreach (array("emaildomain", "group", "adminusers", "admingroup") as $cfgvar) {
             $this->$cfgvar = $this->getConf("$cfgvar");
             if (!$this->$cfgvar) {
@@ -51,7 +51,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
                  return;
             }
         }
-	$this->adminusers = explode(" ", $this->adminusers);
+        $this->adminusers = explode(" ", $this->adminusers);
 
         if ($_SERVER['PHP_AUTH_USER'] == "" || $_SERVER['PHP_AUTH_PW'] == "") {
             msg($this->getLang('nocreds'), -1);
@@ -59,7 +59,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
             return;
         }
 
-	/* We do authentication only, so no capabilities are set */
+        /* We do authentication only, so no capabilities are set */
     }
 
     /**
