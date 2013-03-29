@@ -5,6 +5,6 @@
  * @author Pieter Hollants <pieter@hollants.com>
  */
 
-$meta['emaildomain'] = array('string');
-$meta['adminusers']  = array('string', '_cautionList' => array('plugin____authhttp____adminusers' => 'danger'));
-$meta['admingroup']  = array('string', '_cautionList' => array('plugin____authhttp____admingroup' => 'danger'));
+$meta['emaildomain']  = array('string');
+$meta['specialusers'] = array('string', '_cautionList' => array('plugin____authhttp____specialusers' => 'danger'));
+$meta['specialgroup'] = array('string', '_cautionList' => array('plugin____authhttp____specialgroup' => 'danger'));

@@ -7,8 +7,8 @@
 
 $lang['plugin_settings_name'] = 'HTTP-Authentifizierungs-Plugin';
 
-$lang['emaildomain'] = 'Domain zur Erzeugung von E-Mail-Adressen';
-$lang['adminusers']  = 'Benutzernamen, die zur DokuWikis Admingruppe gehören';
-$lang['admingroup']  = 'Name von DokuWikis Admingruppe';
+$lang['emaildomain']  = 'Domain zur Erzeugung von E-Mail-Adressen';
+$lang['specialusers'] = 'Benutzernamen, die zur Spezialgruppe gehören';
+$lang['specialgroup'] = 'Name der Spezialgruppe';
 
 //Setup VIM: ex: et ts=4 :

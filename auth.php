@@ -11,8 +11,8 @@
  *   config setting
  * - all users are part of the DokuWiki group configured with DokuWiki's
  *   "defaultgroup" config setting
- * - users that are specified in the list configured with "adminusers" will
- *   also be member of the group configured with "admingroup" (default: "admin")
+ * - users that are specified in the list configured with "specialusers" will
+ *   also be member of the group configured with "specialgroup" (default: "admin")
  *
  * These restrictions may not suit your setup, in which case you should check out
  * the "authsplit" plugin at https://www.dokuwiki.org/plugin:authhttp.
@@ -30,8 +30,8 @@ if(!defined('DOKU_INC')) die();
 class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
     protected $emaildomain;
     protected $group;
-    protected $adminusers;
-    protected $admingroup;
+    protected $specialusers;
+    protected $specialgroup;
 
     /**
      * Constructor.
@@ -43,7 +43,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
         $this->loadConfig();
 
         /* Set the config values */
-        foreach (array("emaildomain", "adminusers", "admingroup") as $cfgvar) {
+        foreach (array("emaildomain", "specialusers", "specialgroup") as $cfgvar) {
             $this->$cfgvar = $this->getConf("$cfgvar");
             if (!$this->$cfgvar) {
                  msg("Config error: \"$cfgvar\" not set!", -1);
@@ -51,7 +51,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
                  return;
             }
         }
-        $this->adminusers = explode(" ", $this->adminusers);
+        $this->specialusers = explode(" ", $this->specialusers);
 
         if ($_SERVER['PHP_AUTH_USER'] == "" || $_SERVER['PHP_AUTH_PW'] == "") {
             msg($this->getLang('nocreds'), -1);
@@ -94,8 +94,8 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
         $info['name'] = $user;
         $info['mail'] = $user."@".$this->emaildomain;
         $info['grps'] = array($conf['defaultgroup']);
-        if (in_array($user, $this->adminusers)) {
-            $info['grps'][] = $this->admingroup;
+        if (in_array($user, $this->specialusers)) {
+            $info['grps'][] = $this->specialgroup;
         }
 
         return $info;
