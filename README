@@ -54,9 +54,11 @@ DokuWiki expects some things that HTTP authentication does not provide:
   domain part to the user's login name. This will generate email addresses that
   will probably not work. There is not really a way around this, so you might
   want to disable email-related functions in DokuWiki.
-- the user's groups: authhttp will simply put all users in one group, whose
-  name is configurable. Users whose login names are listed in “adminusers” will
-  also be reported to be member of “admingroup”.
+- the user's groups: authhttp will simply put all users in DokuWiki's
+  "defaultgroup". Users whose login names are listed in "specialusers" will
+  also be reported to be member of "specialgroup". If you did not modify
+  DokuWiki's "superuser" default of "@admin", you should leave this setting at
+  "admin" as well and put users supposed to be admins in "specialusers".
 
 If these limitations are not acceptable, you might want to use combine the
 upcoming authsplit plugin with authhttp.
@@ -77,12 +79,9 @@ on how to install plugins in DokuWiki.
 CONFIGURATION AND SETTINGS
 
 - emaildomain: The domain to append to login names to generate email addresses.
-- group: The group all users will be put in. If ACLs are enabled, it is wise to
-  leave this at the DokuWiki default of "user".
-- adminusers: The login names of users to be be treated as Admins. You can list
-  multiple login names separated by Space.
-- admingroup: The name of the Admin group. It is wise to leave this at the
-  DokuWiki default of "admin".
+- specialusers: The login names of users to be put in the special group. You can
+  list multiple login names separated by Space.
+- specialgroup: The name of the special group.
 
 
 REFERENCES
