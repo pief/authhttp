@@ -1,6 +1,6 @@
 <?php
 /**
- * Options for the authsplit plugin
+ * Options for the authhttp plugin
  *
  * @author Pieter Hollants <pieter@hollants.com>
  */
