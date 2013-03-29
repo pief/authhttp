@@ -59,7 +59,9 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
             return;
         }
 
-        /* We do authentication only, so no capabilities are set */
+        /* With HTTP authentication, we can not provide any extra capabilities.
+           Even worse, we can not even provide logout anymore. */
+        $this->cando['logout'] = false;
     }
 
     /**
