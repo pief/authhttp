@@ -6,6 +6,5 @@
  */
 
 $conf['emaildomain'] = 'localhost';
-$conf['group']       = 'user';
 $conf['adminusers']  = 'youmustchangethis';
 $conf['admingroup']  = 'admin';

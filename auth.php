@@ -43,7 +43,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
         $this->loadConfig();
 
         /* Set the config values */
-        foreach (array("emaildomain", "group", "adminusers", "admingroup") as $cfgvar) {
+        foreach (array("emaildomain", "adminusers", "admingroup") as $cfgvar) {
             $this->$cfgvar = $this->getConf("$cfgvar");
             if (!$this->$cfgvar) {
                  msg("Config error: \"$cfgvar\" not set!", -1);
@@ -89,9 +89,11 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
      * @return  array containing user data or false
      */
     public function getUserData($user) {
+        global $conf;
+
         $info['name'] = $user;
         $info['mail'] = $user."@".$this->emaildomain;
-        $info['grps'] = array($this->group);
+        $info['grps'] = array($conf['defaultgroup']);
         if (in_array($user, $this->adminusers)) {
             $info['grps'][] = $this->admingroup;
         }
