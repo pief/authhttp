@@ -9,8 +9,8 @@
  * - the user's real name is set to his login name
  * - a possibly non-working email address is constructed with the "emaildomain"
  *   config setting
- * - all users are part of the DokuWiki group configured with the "group"
- *   config setting (default: "user")
+ * - all users are part of the DokuWiki group configured with DokuWiki's
+ *   "defaultgroup" config setting
  * - users that are specified in the list configured with "adminusers" will
  *   also be member of the group configured with "admingroup" (default: "admin")
  *
