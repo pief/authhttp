@@ -29,7 +29,6 @@ if(!defined('DOKU_INC')) die();
 
 class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
     protected $emaildomain;
-    protected $group;
     protected $specialusers;
     protected $specialgroup;
 
