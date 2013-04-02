@@ -4,6 +4,9 @@
            Licensed under the GNU Public License (GPL) version 3
 
 
+NOTE: This auth plugin requires DokuWiki WeatherWax RC1 (2013-03-06) or later!
+
+
 DESCRIPTION
 
 This auth plugin should be installed in certain scenarios if you configured
