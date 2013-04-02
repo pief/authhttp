@@ -63,20 +63,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
         }
         $this->specialusers = explode(" ", $this->specialusers);
 
-        /* With HTTP authentication, there is no sense in allowing login any
-           longer because our checkPass() below can't authenticate anyone but
-           the already successfully authenticated user anyway.
-
-           DokuWiki has no capability setting for 'login', so we need a little
-           hack that pretends the admin disabled the login action himself. */
-        $disableactions = explode(',', $conf['disableactions']);
-        $disableactions = array_map('trim', $disableactions);
-        if (!in_array('login', $disableactions)) {
-            $disableactions[] = 'login';
-        }
-        $conf['disableactions'] = implode(',', $disableactions);
-
-        /* We also can't support logout, but there's a capability bit for this. */
+        /* No support for logout in this auth plugin. */
         $this->cando['logout'] = false;
     }
 
