@@ -62,9 +62,9 @@ the plugin thus has to improvise:
   leave this setting at "admin" as well and put users supposed to be admins in
   "specialusers".
 
-If these limitations are not acceptable, you might want to use combine
-authhttp with https://www.dokuwiki.org/plugin:authsplit. authhttp comes with
-an action plugin that improves integration with authsplit:
+If these limitations are not acceptable, you might want to combine authhttp
+with https://www.dokuwiki.org/plugin:authsplit. authhttp comes with an action
+plugin that improves integration with authsplit:
 - When authhttp is the primary auth plugin for authsplit, there could be the
   case that while users are known to authhttp, they aren't to the secondary auth
   plugin yet, so they'd have to register (unless authsplit's autoregister
