@@ -97,6 +97,10 @@ CONFIGURATION AND SETTINGS
   list multiple login names separated by Space.
 - specialgroup: The name of the special group.
 
+Note: when authhttp is used together with authsplit and authhttp is the primary
+auth plugin for authsplit, all three configuration settings above will have no
+effect any longer due to the way authsplit works.
+
 
 REFERENCES
 
