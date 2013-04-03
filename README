@@ -70,7 +70,7 @@ with https://www.dokuwiki.org/plugin:authsplit. authhttp comes with an action
 plugin that improves integration with authsplit:
 - When authhttp is the primary auth plugin for authsplit, there could be the
   case that while users are known to authhttp, they aren't to the secondary auth
-  plugin yet, so they'd have to register (unless authsplit's autoregister
+  plugin yet, so they'd have to register (unless authsplit's "autocreate_users"
   feature is used). In this scenario, the username for registration should match
   the HTTP authentication username. Also, the login form should be hidden
   because there is not much sense in offering a form-based login when HTTP
