@@ -24,43 +24,60 @@
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
 
+/* We have to distinguish between the plugin being loaded and the plugin
+   actually being used for authentication. */
+$active = (
+    $conf['authtype'] == 'authhttp' ||
+    (
+        $conf['authtype'] == 'authsplit' &&
+        $conf['plugin']['authsplit']['primary_authplugin'] == 'authhttp'
+    )
+);
+
 class action_plugin_authhttp extends DokuWiki_Action_Plugin {
     public function __construct() {
         global $conf;
 
-        /* We register an event handler to skip the login action below, but we also
-           don't want the template to show a 'login' link in the first place.
+        if ($active) {
+            /* We register an event handler to skip the login action below, but
+               we also don't want the template to show a 'login' link in the
+               first place.
 
-           DokuWiki has no capability setting for 'login', so we need a little
-           hack that pretends the admin disabled the login action himself. */
-        $disableactions = explode(',', $conf['disableactions']);
-        $disableactions = array_map('trim', $disableactions);
-        if (!in_array('login', $disableactions)) {
-            $disableactions[] = 'login';
+               DokuWiki has no capability setting for 'login', so we need a
+               little hack that pretends the admin disabled the login action
+               himself. */
+            $disableactions = explode(',', $conf['disableactions']);
+            $disableactions = array_map('trim', $disableactions);
+            if (!in_array('login', $disableactions)) {
+                $disableactions[] = 'login';
+            }
+            $conf['disableactions'] = implode(',', $disableactions);
+
+            /* We also don't want DokuWiki to generate passwords on its own and
+               mail them to the users upon registration. We need to use the same
+               hack as above, pretending the admin disabled password generation
+               himself. */
+            $conf['autopasswd'] = 0;
         }
-        $conf['disableactions'] = implode(',', $disableactions);
-
-        /* We also don't want DokuWiki to generate passwords on its own and mail
-           them to the users upon registration. We need to use the same hack as
-           above, pretending the admin disabled password generation himself. */
-        $conf['autopasswd'] = 0;
     }
 
     /**
      * Register the event handlers
      */
     function register(&$controller){
-        $controller->register_hook('ACTION_ACT_PREPROCESS',
-                                   'AFTER',
-                                   $this,
-                                   'skip_login_action',
-                                   NULL);
+        if ($active) {
+            $controller->register_hook('ACTION_ACT_PREPROCESS',
+                                       'AFTER',
+                                       $this,
+                                       'skip_login_action',
+                                       NULL);
 
-        $controller->register_hook('HTML_REGISTERFORM_OUTPUT',
-                                   'BEFORE',
-                                   $this,
-                                   'modify_register_form',
-                                   NULL);
+            $controller->register_hook('HTML_REGISTERFORM_OUTPUT',
+                                       'BEFORE',
+                                       $this,
+                                       'modify_register_form',
+                                       NULL);
+        }
     }
 
     /**
