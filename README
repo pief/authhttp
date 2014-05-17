@@ -115,7 +115,7 @@ To follow development more closely, clone the GitHub repo at
 
 CREDITS
 
-This plugin in based on ideas in the "ggauth" auth backend by Grant Gardner
+This plugin is based on ideas in the "ggauth" auth backend by Grant Gardner
 <grant@lastweekend.com.au>, https://www.dokuwiki.org/auth:ggauth. Grant does
 not actively maintain ggauth anymore, so an update for the new auth plugins
 concept is unlikely. Also, his "http" auth backend uses trustExternal() which
