@@ -1,7 +1,7 @@
 base   authhttp
 author Pieter Hollants
 email  pieter@hollants.com
-date   2013-05-04
+date   2014-05-17
 name   authhttp plugin
 desc   Authenticate against HTTP authentication credentials
 url    https://www.dokuwiki.org/plugin:authhttp
