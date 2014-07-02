@@ -36,7 +36,7 @@ $active = (
 
 class action_plugin_authhttp extends DokuWiki_Action_Plugin {
     public function __construct() {
-        global $conf;
+        global $conf, $active;
 
         if ($active) {
             /* We register an event handler to skip the login action below, but
@@ -65,6 +65,8 @@ class action_plugin_authhttp extends DokuWiki_Action_Plugin {
      * Register the event handlers
      */
     function register(&$controller){
+        global $active;
+
         if ($active) {
             $controller->register_hook('ACTION_ACT_PREPROCESS',
                                        'AFTER',
