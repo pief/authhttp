@@ -115,6 +115,31 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
 
         return $info;
     }
+
+    /**
+     * Clean username
+     *
+     * If strip_realm is set to true,
+     * removes everything after @.
+     * Otherwise, returns input.
+     *
+     * @param    string $user the user name
+     * @return   string containing cleaned username
+     *
+     */
+    public function cleanUser($user) {
+        global $conf;
+
+        if $conf['strip_realm'] {
+            $exploded_user = explode("@", $user);
+            return $exploded_user[0];
+        }
+
+        else {
+            return $user;
+        }
+    }
+
 }
 
 // vim:ts=4:sw=4:et:

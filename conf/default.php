@@ -8,3 +8,4 @@
 $conf['emaildomain']  = 'localhost';
 $conf['specialusers'] = 'youmustchangethis';
 $conf['specialgroup'] = 'admin';
+$conf['strip_realm'] = 0;
