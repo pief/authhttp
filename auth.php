@@ -130,7 +130,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
     public function cleanUser($user) {
         global $conf;
 
-        if $conf['strip_realm'] {
+        if ($conf['strip_realm']) {
             $exploded_user = explode("@", $user);
             return $exploded_user[0];
         }
