@@ -63,7 +63,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
         $this->loadConfig();
 
         /* Set the config values */
-        foreach (array("emaildomain", "specialusers", "specialgroup") as $cfgvar) {
+        foreach (array("emaildomain", "specialusers", "specialgroup", "strip_realm") as $cfgvar) {
             $this->$cfgvar = $this->getConf("$cfgvar");
             if (!$this->$cfgvar) {
                  msg("Config error: \"$cfgvar\" not set!", -1);
@@ -87,7 +87,11 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
      * @return  bool
      */
     public function checkPass($user, $pass) {
-        return ($user == $_SERVER['PHP_AUTH_USER'] && $pass == $_SERVER['PHP_AUTH_PW']);
+        $u = $_SERVER['PHP_AUTH_USER'];
+        if ($this->strip_realm) {
+            $u = array_shift(explode("@", $u));
+        }
+        return ($user == $u && $pass == $_SERVER['PHP_AUTH_PW']);
     }
 
     /**
@@ -128,17 +132,15 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
      *
      */
     public function cleanUser($user) {
-        global $conf;
-
-        if ($conf['strip_realm']) {
-            $exploded_user = explode("@", $user);
-            return $exploded_user[0];
+        if ($this->strip_realm) {
+            $exp_user = explode("@", $user);
+            return $exp_user[0];
         }
-
         else {
             return $user;
         }
     }
+
 
 }
 
