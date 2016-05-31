@@ -10,7 +10,7 @@
  *     i.) the username is hard-coded to match the username from the
  *         HTTP authentication.
  *     ii.) the password text fields are replaced by hidden fields with
- *          a pseudo password consisting of a single Space character only.
+ *          a random password that won't do any harm.
  *
  * All of this code ONLY applies when DokuWiki's configured auth plugin is authsplit
  * (https://www.dokuwiki.org/plugin:authsplit) and authhttp is its primary auth plugin.
