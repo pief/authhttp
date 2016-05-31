@@ -64,7 +64,7 @@ class action_plugin_authhttp extends DokuWiki_Action_Plugin {
     /**
      * Register the event handlers
      */
-    function register(&$controller){
+    function register(Doku_Event_Handler $controller){
         global $active;
 
         if ($active) {
