@@ -5,7 +5,7 @@
 
 
 NOTE: This auth plugin requires DokuWiki WeatherWax (2013-05-10a) or later!
-      Last version successfully tested: 2015-08-10a.
+      Last version successfully tested: 2015-08-10a (PHP 5.6.22 and 7.0.7).
 
 
 DESCRIPTION
