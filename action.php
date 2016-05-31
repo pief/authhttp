@@ -17,7 +17,7 @@
  * If authhttp is used on its own (ie. as DokuWiki's auth plugin), users will never
  * see a login or a register screen anyway.
  *
- * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
+ * @license GPL 3 http://www.gnu.org/licenses/gpl-3.0.html
  * @author  Pieter Hollants <pieter@hollants.com>
  */
 

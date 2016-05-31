@@ -20,7 +20,7 @@
  * This plugin in based on the ideas in the "ggauth" auth backend by Grant Gardner
  * <grant@lastweekend.com.au>, https://www.dokuwiki.org/auth:ggauth.
  *
- * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
+ * @license GPL 3 http://www.gnu.org/licenses/gpl-3.0.html
  * @author  Pieter Hollants <pieter@hollants.com>
  */
 
