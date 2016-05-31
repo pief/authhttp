@@ -101,9 +101,10 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
      * grps array   list of groups the user is in
      *
      * @param   string $user the user name
+     * @param   bool $requireGroups ignored, this plugin always returns groups
      * @return  array containing user data or false
      */
-    public function getUserData($user) {
+    public function getUserData($user, $requireGroups = true) {
         global $conf;
 
         $info['name'] = $user;
