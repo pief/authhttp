@@ -63,7 +63,7 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
         $this->loadConfig();
 
         /* Set the config values */
-        foreach (array("emaildomain", "specialusers", "specialgroup") as $cfgvar) {
+        foreach (array("emaildomain", "specialusers", "specialgroup", "strip_realm") as $cfgvar) {
             $this->$cfgvar = $this->getConf("$cfgvar");
             if (!$this->$cfgvar) {
                  msg("Config error: \"$cfgvar\" not set!", -1);
@@ -87,7 +87,11 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
      * @return  bool
      */
     public function checkPass($user, $pass) {
-        return ($user == $_SERVER['PHP_AUTH_USER'] && $pass == $_SERVER['PHP_AUTH_PW']);
+        $u = $_SERVER['PHP_AUTH_USER'];
+        if ($this->strip_realm) {
+            $u = array_shift(explode("@", $u));
+        }
+        return ($user == $u && $pass == $_SERVER['PHP_AUTH_PW']);
     }
 
     /**
@@ -116,6 +120,28 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
 
         return $info;
     }
+
+    /**
+     * Clean username
+     *
+     * If strip_realm is set to true,
+     * removes everything after @.
+     * Otherwise, returns input.
+     *
+     * @param    string $user the user name
+     * @return   string containing cleaned username
+     *
+     */
+    public function cleanUser($user) {
+        if ($this->strip_realm) {
+            return array_shift(explode("@", $user));
+        }
+        else {
+            return $user;
+        }
+    }
+
+
 }
 
 // vim:ts=4:sw=4:et:
