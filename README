@@ -93,13 +93,18 @@ on how to install plugins in DokuWiki.
 
 CONFIGURATION AND SETTINGS
 
+- usernameregex: A regular expression specifying the username part of the HTTP
+  authentication login name. Examples:
+  .+           for UNIX/passwd environments (ie. user name = login name)
+  ^[^@]+       for Kerberos environments (eg. user@domain login names)
+  \\[^\\]+$    for Windows domain environments (eg. DOMAIN\USER login names)
 - emaildomain: The domain to append to login names to generate email addresses.
 - specialusers: The login names of users to be put in the special group. You can
   list multiple login names separated by Space.
 - specialgroup: The name of the special group.
 
 Note: when authhttp is used together with authsplit and authhttp is the primary
-auth plugin for authsplit, all three configuration settings above will have no
+auth plugin for authsplit, all four configuration settings above will have no
 effect any longer due to the way authsplit works.
 
 
