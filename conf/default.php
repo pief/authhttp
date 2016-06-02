@@ -5,6 +5,7 @@
  * @author Pieter Hollants <pieter@hollants.com>
  */
 
-$conf['emaildomain']  = 'localhost';
-$conf['specialusers'] = 'youmustchangethis';
-$conf['specialgroup'] = 'admin';
+$conf['usernameregex'] = '.+';
+$conf['emaildomain']   = 'localhost';
+$conf['specialusers']  = 'youmustchangethis';
+$conf['specialgroup']  = 'admin';
