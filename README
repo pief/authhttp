@@ -111,8 +111,8 @@ CONFIGURATION AND SETTINGS
 - specialgroup: The name of the special group.
 
 Note: when authhttp is used together with authsplit and authhttp is the primary
-auth plugin for authsplit, all four configuration settings above will have no
-effect any longer due to the way authsplit works.
+auth plugin for authsplit, the last three configuration settings above will
+have no effect any longer due to the way authsplit works.
 
 
 REFERENCES
