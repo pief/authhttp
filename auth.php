@@ -132,9 +132,6 @@ class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
      */
     public function cleanUser($user) {
         if (preg_match($this->usernameregex, $user, $results)) {
-            error_log("---");
-            error_log("returning ".$results[0]);
-            error_log("---");
             return $results[0];
         } else {
             return $user;
