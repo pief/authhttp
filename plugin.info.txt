@@ -1,7 +1,7 @@
-base   authhttp
-author Pieter Hollants
-email  pieter@hollants.com
+base   authproxy
+author David Newhall II
+email  captain@golift.tv
 date   2018-01-15
-name   HTTP Authentication Auth plugin
-desc   Authenticate against HTTP authentication credentials
-url    https://www.dokuwiki.org/plugin:authhttp
+name   HTTP Authentication Proxy Auth plugin
+desc   Authenticate against arbitrary HTTP headers
+url    https://github.com/Go-Lift-TV/authproxy

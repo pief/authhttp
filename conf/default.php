@@ -1,11 +1,11 @@
 <?php
 /**
- * Default settings for the authhttp plugin
+ * Default settings for the authproxy plugin
  *
- * @author Pieter Hollants <pieter@hollants.com>
+ * @author David Newhall II <captain@golift.tv>
  */
 
-$conf['usernameregex'] = '.+';
-$conf['emaildomain']   = 'localhost';
-$conf['specialusers']  = 'youmustchangethis';
-$conf['specialgroup']  = 'admin';
+$conf['usernamehdr'] = 'X-WEBAUTH-USER';
+$conf['emailhdr']    = 'X-WEBAUTH-EMAIL';
+$conf['adminusers']  = 'yourusername';
+$conf['admingroup']  = 'admin';

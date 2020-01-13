@@ -1,9 +1,9 @@
 <?php
 /**
- * DokuWiki HTTP authentication plugin
- * https://www.dokuwiki.org/plugin:authhttp
+ * DokuWiki HTTP auth proxy plugin
+ * https://github.com/Go-Lift-TV/authproxy
  *
- * This is authhttp's action plugin which
+ * This is authproxy's action plugin which
  * a.) skips the 'login' action as it does not make sense with HTTP
  *     authentication.
  * b.) modifies DokuWiki's register form so that
@@ -13,12 +13,13 @@
  *          a random password that won't do any harm.
  *
  * All of this code ONLY applies when DokuWiki's configured auth plugin is authsplit
- * (https://www.dokuwiki.org/plugin:authsplit) and authhttp is its primary auth plugin.
- * If authhttp is used on its own (ie. as DokuWiki's auth plugin), users will never
+ * (https://www.dokuwiki.org/plugin:authsplit) and authproxy is its primary auth plugin.
+ * If authproxy is used on its own (ie. as DokuWiki's auth plugin), users will never
  * see a login or a register screen anyway.
  *
  * @license GPL 3 http://www.gnu.org/licenses/gpl-3.0.html
  * @author  Pieter Hollants <pieter@hollants.com>
+ * @author  David Newhall II <captain@golift.tv>
  */
 
 // must be run within Dokuwiki
@@ -27,14 +28,14 @@ if(!defined('DOKU_INC')) die();
 /* We have to distinguish between the plugin being loaded and the plugin
    actually being used for authentication. */
 $active = (
-    $conf['authtype'] == 'authhttp' ||
+    $conf['authtype'] == 'authproxy' ||
     (
         $conf['authtype'] == 'authsplit' &&
-        $conf['plugin']['authsplit']['primary_authplugin'] == 'authhttp'
+        $conf['plugin']['authsplit']['primary_authplugin'] == 'authproxy'
     )
 );
 
-class action_plugin_authhttp extends DokuWiki_Action_Plugin {
+class action_plugin_authproxy extends DokuWiki_Action_Plugin {
     public function __construct() {
         global $conf, $active;
 
@@ -100,8 +101,10 @@ class action_plugin_authhttp extends DokuWiki_Action_Plugin {
 
     /**
      * Event handler to modify the registration form
+     * Repeat: This code can only run if you use authsplit plugin.
      */
     function modify_register_form(&$event, $param) {
+				global $conf;
         /* Hard-code the HTTP authentication user name as login name to be registered as
            registering as anyone else than the already externally authenticated user does
            not make much sense. */
@@ -109,15 +112,15 @@ class action_plugin_authhttp extends DokuWiki_Action_Plugin {
         if (!$pos)
             return;
         $elem = $event->data->getElementAt($pos);
-        $elem['value'] = $_SERVER['PHP_AUTH_USER'];
+        $elem['value'] = $_SERVER[$conf['plugin']['authproxy']['usernamehdr']]; /* Test this? */
         $elem['readonly'] = 'readonly';
         $event->data->replaceElement($pos, $elem);
 
         /* We do not want DokuWiki to auto-generate a password and mail it to the user.
            Then, however, inc/auth.php's register() will insist on a non-null password,
            so we supply a random one in hidden form fields. As this code only runs when
-           both authhttp AND authsplit are active, the password won't end up anywhere
-           since authhttp is the primary auth plugin in that case and does not offer the
+           both authproxy AND authsplit are active, the password won't end up anywhere
+           since authproxy is the primary auth plugin in that case and does not offer the
            modPass capability. */
         $pwd = auth_pwgen();
         foreach (array('pass', 'passchk') as $name) {

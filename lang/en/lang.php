@@ -1,10 +1,9 @@
 <?php
 /**
- * English language file for authhttp plugin
+ * English language file for authproxy plugin
  *
- * @author Pieter Hollants <pieter@hollants.com>
+ * @author David Newhall II <captain@golift.tv>
  */
 
-$lang['nocreds'] = 'No credentials found, is HTTP authentication enabled in your Webserver?';
-
-//Setup VIM: ex: et ts=4 :
+$lang['nocreds'] = 'Username unknown. Make sure to check the correct header!';
+$lang['noguest'] = 'Guest account not allowed to login.';

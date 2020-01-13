@@ -1,11 +1,12 @@
 <?php
 /**
- * Options for the authhttp plugin
+ * Options for the authproxy plugin
  *
  * @author Pieter Hollants <pieter@hollants.com>
+ * @author David Newhall II <captain@golift.tv>
  */
 
-$meta['usernameregex'] = array('string',  '_cautionList' => array('plugin____authhttp____userregex' => 'danger'));
-$meta['emaildomain']   = array('string');
-$meta['specialusers']  = array('string', '_cautionList' => array('plugin____authhttp____specialusers' => 'danger'));
-$meta['specialgroup']  = array('string', '_cautionList' => array('plugin____authhttp____specialgroup' => 'danger'));
+$meta['usernamehdr'] = array('string', '_cautionList' => array('plugin____authproxy____usernamehdr' => 'danger')););
+$meta['emailhdr']    = array('string', '_cautionList' => array('plugin____authproxy____emailhdr' => 'danger')););
+$meta['adminusers']  = array('string', '_cautionList' => array('plugin____authproxy____adminusers' => 'danger'));
+$meta['admingroup']  = array('string', '_cautionList' => array('plugin____authproxy____admingroup' => 'danger'));

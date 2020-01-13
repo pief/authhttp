@@ -1,15 +1,13 @@
 <?php
 /**
- * English language file for authhttp plugin
+ * English language file for authproxy plugin
  *
- * @author Pieter Hollants <pieter@hollants.com>
+ * @author David Newhall II <captain@golift.tv>
  */
 
-$lang['plugin_settings_name'] = 'HTTP authentication plugin';
+$lang['plugin_settings_name'] = 'HTTP proxy auth plugin';
 
-$lang['usernameregex'] = 'Regular expression to match the username part in HTTP authentication login names. Defaults to <tt>.+</tt>, use <tt>^[^@]+</tt> in Kerberos environments with usernames such as <em>user@domain</em> and <tt>&#92;&#92;[^&#92;&#92;]+$</tt> in Windows domain scenarios with usernames such as <em>DOMAIN\User</em>.';
-$lang['emaildomain']   = 'Domain to append for creating email addresses';
-$lang['specialusers']  = 'Usernames belonging to the special group';
-$lang['specialgroup']  = 'Name of the special group';
-
-//Setup VIM: ex: et ts=4 :
+$lang['usernamehdr'] = 'HTTP Header from proxy server containing the username';
+$lang['emailhdr']    = 'HTTP Header from proxy server containing the email address';
+$lang['adminusers']  = 'Usernames belonging to the admin group';
+$lang['admingroup']  = 'Name of the admin group';
