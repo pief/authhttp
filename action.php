@@ -74,7 +74,15 @@ class action_plugin_authhttp extends DokuWiki_Action_Plugin {
                                        'skip_login_action',
                                        NULL);
 
+            /* Legacy DokuWiki releases with old form class */
             $controller->register_hook('HTML_REGISTERFORM_OUTPUT',
+                                       'BEFORE',
+                                       $this,
+                                       'modify_register_form_legacy',
+                                       NULL);
+
+            /* Newer DokuWiki releases with rewritten form class */
+            $controller->register_hook('REGISTERFORM_OUTPUT',
                                        'BEFORE',
                                        $this,
                                        'modify_register_form',
@@ -100,18 +108,21 @@ class action_plugin_authhttp extends DokuWiki_Action_Plugin {
 
     /**
      * Event handler to modify the registration form
+     * Version for legacy DokuWiki releases with old form class
      */
-    function modify_register_form(&$event, $param) {
-        /* Hard-code the HTTP authentication user name as login name to be registered as
+    function modify_register_form_legacy(&$event, $param) {
+        $form = $event->data;
+
+        /* Hard-code the HTTP authentication user name as login name for registration as
            registering as anyone else than the already externally authenticated user does
            not make much sense. */
-        $pos = $event->data->findElementByAttribute('name','login');
+        $pos = $form->findElementByAttribute('name', 'login');
         if (!$pos)
             return;
-        $elem = $event->data->getElementAt($pos);
+        $elem = $form->getElementAt($pos);
         $elem['value'] = $_SERVER['PHP_AUTH_USER'];
         $elem['readonly'] = 'readonly';
-        $event->data->replaceElement($pos, $elem);
+        $form->replaceElement($pos, $elem);
 
         /* We do not want DokuWiki to auto-generate a password and mail it to the user.
            Then, however, inc/auth.php's register() will insist on a non-null password,
@@ -121,9 +132,41 @@ class action_plugin_authhttp extends DokuWiki_Action_Plugin {
            modPass capability. */
         $pwd = auth_pwgen();
         foreach (array('pass', 'passchk') as $name) {
-            $pos = $event->data->findElementByAttribute('name', $name);
-            $event->data->replaceElement($pos, NULL);
-            $event->data->addHidden($name, $pwd);
+            $pos = $form->findElementByAttribute('name', $name);
+            $form->replaceElement($pos, NULL);
+            $form->addHidden($name, $pwd);
+        }
+    }
+
+    /**
+     * Event handler to modify the registration form
+     * Version for newer DokuWiki releases with rewritten form class
+     */
+    function modify_register_form(&$event, $param) {
+        $form = $event->data;
+
+        /* Hard-code the HTTP authentication user name as login name for registration as
+           registering as anyone else than the already externally authenticated user does
+           not make much sense. */
+        $pos = $form->findPositionByAttribute('name', 'login');
+        if (!$pos)
+            return;
+        $elem = $form->getElementAt($pos);
+        $elem['value'] = $_SERVER['PHP_AUTH_USER'];
+        $elem['readonly'] = 'readonly';
+        $form->replaceElement($elem, $pos);
+
+        /* We do not want DokuWiki to auto-generate a password and mail it to the user.
+           Then, however, inc/auth.php's register() will insist on a non-null password,
+           so we supply a random one in hidden form fields. As this code only runs when
+           both authhttp AND authsplit are active, the password won't end up anywhere
+           since authhttp is the primary auth plugin in that case and does not offer the
+           modPass capability. */
+        $pwd = auth_pwgen();
+        foreach (array('pass', 'passchk') as $name) {
+            $pos = $form->findPositionByAttribute('name', $name);
+            $form->replaceElement(NULL, $pos);
+            $form->setHiddenField($name, $pwd);
         }
     }
 }
