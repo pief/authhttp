@@ -34,7 +34,9 @@ $active = (
     )
 );
 
-class action_plugin_authhttp extends DokuWiki_Action_Plugin {
+use dokuwiki\Extension\ActionPlugin;
+
+class action_plugin_authhttp extends ActionPlugin {
     public function __construct() {
         global $conf, $active;
 

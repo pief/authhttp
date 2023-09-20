@@ -37,7 +37,9 @@ $active = (
     )
 );
 
-class auth_plugin_authhttp extends DokuWiki_Auth_Plugin {
+use dokuwiki\Extension\AuthPlugin;
+
+class auth_plugin_authhttp extends AuthPlugin {
     protected $usernameregex;
     protected $emaildomain;
     protected $specialusers;
