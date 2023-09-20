@@ -25,7 +25,8 @@
  */
 
 // must be run within Dokuwiki
-if(!defined('DOKU_INC')) die();
+if (!defined('DOKU_INC'))
+    die();
 
 use dokuwiki\Extension\AuthPlugin;
 
