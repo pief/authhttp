@@ -47,7 +47,7 @@ class auth_plugin_authhttp extends AuthPlugin {
         /* Make sure that HTTP authentication has been enabled in the Web
            server. Note that does not seem to work with PHP >= 4.3.0 and safe
            mode enabled! */
-        if ($_SERVER['PHP_AUTH_USER'] == "") {
+        if (!array_key_exists('PHP_AUTH_USER', $_SERVER) || $_SERVER['PHP_AUTH_USER'] == "") {
             msg($this->getLang('nocreds'), -1);
             $this->success = false;
             return;
