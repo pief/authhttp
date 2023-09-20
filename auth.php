@@ -27,16 +27,6 @@
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
 
-/* We have to distinguish between the plugin being loaded and the plugin
-   actually being used for authentication. */
-$active = (
-    $conf['authtype'] == 'authhttp' ||
-    (
-        $conf['authtype'] == 'authsplit' &&
-        $conf['plugin']['authsplit']['primary_authplugin'] == 'authhttp'
-    )
-);
-
 use dokuwiki\Extension\AuthPlugin;
 
 class auth_plugin_authhttp extends AuthPlugin {
@@ -62,6 +52,16 @@ class auth_plugin_authhttp extends AuthPlugin {
             return;
         }
 
+        /* We have to distinguish between the plugin being loaded and the plugin
+           actually being used for authentication. */
+        $this->active = (
+            $conf['authtype'] == 'authhttp' ||
+            (
+                $conf['authtype'] == 'authsplit' &&
+                $conf['plugin']['authsplit']['primary_authplugin'] == 'authhttp'
+            )
+        );
+
         /* Load the config */
         $this->loadConfig();
 
@@ -79,7 +79,7 @@ class auth_plugin_authhttp extends AuthPlugin {
         }
         $this->specialusers = explode(" ", $this->specialusers);
 
-        if ($active) {
+        if ($this->active) {
             /* No support for logout in this auth plugin. */
             $this->cando['logout'] = false;
         }

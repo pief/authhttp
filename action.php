@@ -24,23 +24,23 @@
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
 
-/* We have to distinguish between the plugin being loaded and the plugin
-   actually being used for authentication. */
-$active = (
-    $conf['authtype'] == 'authhttp' ||
-    (
-        $conf['authtype'] == 'authsplit' &&
-        $conf['plugin']['authsplit']['primary_authplugin'] == 'authhttp'
-    )
-);
-
 use dokuwiki\Extension\ActionPlugin;
 
 class action_plugin_authhttp extends ActionPlugin {
     public function __construct() {
-        global $conf, $active;
+        global $conf;
 
-        if ($active) {
+        /* We have to distinguish between the plugin being loaded and the plugin
+           actually being used for authentication. */
+        $this->active = (
+            $conf['authtype'] == 'authhttp' ||
+            (
+                $conf['authtype'] == 'authsplit' &&
+                $conf['plugin']['authsplit']['primary_authplugin'] == 'authhttp'
+            )
+        );
+
+        if ($this->active) {
             /* We register an event handler to skip the login action below, but
                we also don't want the template to show a 'login' link in the
                first place.
@@ -67,9 +67,7 @@ class action_plugin_authhttp extends ActionPlugin {
      * Register the event handlers
      */
     function register(Doku_Event_Handler $controller){
-        global $active;
-
-        if ($active) {
+        if ($this->active) {
             $controller->register_hook('ACTION_ACT_PREPROCESS',
                                        'AFTER',
                                        $this,
