@@ -84,6 +84,8 @@ class auth_plugin_authhttp extends AuthPlugin {
             /* No support for logout in this auth plugin. */
             $this->cando['logout'] = false;
         }
+
+        $this->success = true;
     }
 
     /**
