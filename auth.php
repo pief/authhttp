@@ -25,7 +25,8 @@
  */
 
 // must be run within Dokuwiki
-if(!defined('DOKU_INC')) die();
+if (!defined('DOKU_INC'))
+    die();
 
 use dokuwiki\Extension\AuthPlugin;
 
@@ -43,10 +44,20 @@ class auth_plugin_authhttp extends AuthPlugin {
 
         parent::__construct();
 
+        /* We have to distinguish between the plugin being loaded and the plugin
+           actually being used for authentication. */
+        $this->active = (
+            $conf['authtype'] == 'authhttp' ||
+            (
+                $conf['authtype'] == 'authsplit' &&
+                $conf['plugin']['authsplit']['primary_authplugin'] == 'authhttp'
+            )
+        );
+
         /* Make sure that HTTP authentication has been enabled in the Web
            server. Note that does not seem to work with PHP >= 4.3.0 and safe
            mode enabled! */
-        if ($_SERVER['PHP_AUTH_USER'] == "") {
+        if (!array_key_exists('PHP_AUTH_USER', $_SERVER) || $_SERVER['PHP_AUTH_USER'] == "") {
             msg($this->getLang('nocreds'), -1);
             $this->success = false;
             return;
@@ -66,7 +77,7 @@ class auth_plugin_authhttp extends AuthPlugin {
         $this->loadConfig();
 
         /* Set the config values */
-        foreach (array("usernameregex", "emaildomain", "specialusers", "specialgroup") as $cfgvar) {
+        foreach (array('usernameregex', 'emaildomain', 'specialusers', 'specialgroup') as $cfgvar) {
             $this->$cfgvar = $this->getConf("$cfgvar");
             if (!$this->$cfgvar) {
                  msg("Config error: \"$cfgvar\" not set!", -1);
@@ -83,6 +94,9 @@ class auth_plugin_authhttp extends AuthPlugin {
             /* No support for logout in this auth plugin. */
             $this->cando['logout'] = false;
         }
+
+        /* Initialization was successful */
+        $this->success = true;
     }
 
     /**
@@ -111,11 +125,9 @@ class auth_plugin_authhttp extends AuthPlugin {
      * @return  array containing user data or false
      */
     public function getUserData($user, $requireGroups = true) {
-        global $conf;
-
         $info['name'] = $user;
         $info['mail'] = $user."@".$this->emaildomain;
-        $info['grps'] = array($conf['defaultgroup']);
+        $info['grps'] = array($this->getConf('defaultgroup'));
         if (in_array($user, $this->specialusers)) {
             $info['grps'][] = $this->specialgroup;
         }
