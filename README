@@ -129,8 +129,7 @@ To follow development more closely, clone the GitHub repo at
 CREDITS
 
 This plugin is based on ideas in the "ggauth" auth backend by Grant Gardner
-<grant@lastweekend.com.au>, https://www.dokuwiki.org/auth:ggauth. Grant has
-not been maintaining ggauth for DokuWiki versions after "WeatherWax".
-Also, his "http" auth backend uses trustExternal() which eg. does not
-support group memberships if used on its own, ie. without the ggauth
-"split" auth backend.
+<grant@lastweekend.com.au>. Grant has not been maintaining ggauth for
+DokuWiki versions after "WeatherWax". Also, his "http" auth backend uses
+trustExternal() which eg. does not support group memberships if used on
+its own, ie. without the ggauth "split" auth backend.
