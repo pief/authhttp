@@ -22,8 +22,7 @@
  */
 
 // must be run within Dokuwiki
-if (!defined('DOKU_INC'))
-    die();
+if(!defined('DOKU_INC')) die();
 
 use dokuwiki\Extension\ActionPlugin;
 
@@ -49,22 +48,18 @@ class action_plugin_authhttp extends ActionPlugin {
                DokuWiki has no capability setting for 'login', so we need a
                little hack that pretends the admin disabled the login action
                himself. */
-            $disableactions = explode(',', $this->getConf('disableactions'));
+            $disableactions = explode(',', $conf['disableactions']);
             $disableactions = array_map('trim', $disableactions);
             if (!in_array('login', $disableactions)) {
                 $disableactions[] = 'login';
             }
-
-            /* Fortunately DokuWiki gained a proper API that allows programmatic
-               access to getting config values. Unfortunately it doesn't have
-               one to set them (for good reason), so we need to hack agian... */
-            $GLOBALS['conf']['disableactions'] = implode(',', $disableactions);
+            $conf['disableactions'] = implode(',', $disableactions);
 
             /* We also don't want DokuWiki to generate passwords on its own and
                mail them to the users upon registration. We need to use the same
                hack as above, pretending the admin disabled password generation
                himself. */
-            $GLOBALS['conf']['autopasswd'] = 0;
+            $conf['autopasswd'] = 0;
         }
     }
 
